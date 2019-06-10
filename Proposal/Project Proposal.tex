@@ -3,6 +3,7 @@
 \usepackage[margin=1in]{geometry}
 % Use indent for all paragraphs
 \usepackage{indentfirst}
+\usepackage{mhchem}
 
 
 
@@ -20,7 +21,23 @@
 
 Ordinary differential equations (ODEs) and partial differential equations define numerous questions in the field of chemical engineering spanning from kinetics to transport phenomena. ODEs can be further classified as boundary value problems (BVP) and initial value problems (IVP) in different contexts. Depending on the specific equations, ODEs might not always have explicit analytical solutions, and therefore numerical methods are developed to calculate final outcomes given the problem can be expressed in a standard form. In this project, we would like to explore the possibility of using artificial neural network (ANN) to approach ODEs in the context of kinetics. 
 
-Kinetics are defined as 
+Kinetics are defined as the rate of reactants converted to products based on stoichiometry. For a general 1\textsuperscript{st} reaction \ce{A ->[k_1] B}, the rate of reaction can be expressed in an ODE: 
+\begin{align}
+    \frac{dC_A}{dt} = k_1 C_A
+    \label{eqn:1}
+\end{align}
+Solving this ODE gives concentration profile of reactant A over time given boundary conditions at initial and final time points. We plan to use the analytical solution to eqn.\ref{eqn:1} as our inputs and outputs to generate input dataset for ANN, and train the weights of ANN model with cross-validation method. Finally, we would test the training results against multiple possible models. In order to further mimic experiment errors, we plan to add random noises to outputs (solution to eqn.\ref{eqn:1}) based on normal distribution, and see how this would modulate ANN models. (Gabriel please help with this paragraph. )
+%% I think this part should be better explained by Gabriel and I like your step numbering during the conversation. 
+
+We have also envisioned possible difficulties in this project... (Add to this part please. And how we plan to solve them. )
+
+We would like to use 1\textsuperscript{st} order reactions as a proof of concept to validate our ANN model, and then extend the application to 2\textsuperscript{nd} order reactions to show that this approach is readily applicable to multiple types of kinetic problems. 
+
+
+%% ref: 
+%% http://www.ds3-datascience-polytechnique.fr/wp-content/uploads/2018/06/DS3-593.pdf
+
+
 
 
 \end{document}
