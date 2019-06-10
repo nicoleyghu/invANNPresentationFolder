@@ -1,2 +1,2 @@
-# cellmeter
-Automated cell count of hemocytometer and other cell imaging devices.
+# Inverse Neural Ode
+An Artificial Neural Network (ANN) based inverse-problem solver and potential model selection for ODE's deriving from chemical kinetics.
