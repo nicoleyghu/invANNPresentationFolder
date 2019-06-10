@@ -1,0 +1,116 @@
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage[justification=centering]{caption}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage[singlelinecheck=false]{caption}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Oscar's setup
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{physics}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage[version=4]{mhchem}
+\usepackage{ragged2e}
+\numberwithin{equation}{section}
+\usepackage{titlesec}
+\titleformat*{\section}{\normalsize\bfseries}
+\titleformat*{\subsection}{\normalsize\bfseries}
+\titleformat*{\subsubsection}{\normalsize\bfseries}
+\usepackage[hidelinks]{hyperref}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{soul}
+\newcommand{\highlight}[1]{%
+\colorbox{yellow!50}{$\displaystyle#1$}}
+\usepackage{float}
+\usepackage{siunitx}
+\usepackage{xfrac}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[margin=1in]{geometry}
+% Use font 'Times New Roman'
+\usepackage{times}
+% Change the line spacing
+\usepackage{setspace}
+% Use indent for all paragraphs
+\usepackage{indentfirst}
+% Use up greek letters
+\usepackage{upgreek}
+% Change Appendix numbering
+\usepackage[titletoc,title]{appendix}
+% Multirow spanning in tabular
+\usepackage{multirow}
+% Math equation numbering
+\usepackage{amsmath}
+% Caption on side
+\usepackage{sidecap}
+% Bode label
+\usepackage[labelfont=bf,font = small]{caption}
+% Text greek letters
+\usepackage{textgreek}
+% Text arrows
+\usepackage{textcomp}
+% Underbracket
+\usepackage{mathtools}
+% % Insert PDF
+\usepackage{pdfpages}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\vs{\vspace{\baselineskip}}
+\def\-vs{\vspace{-\baselineskip}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\captionsetup{justification=justified, singlelinecheck=off} 
+\setlength{\belowcaptionskip}{-15pt}
+
+% Change equation numbering
+\renewcommand{\theequation}{\arabic{equation}}
+% Change the spacing for title and sections
+%\usepackage[small]{titlesec}
+
+% siunitx: detecting and adapting to body font
+\sisetup{detect-all}
+
+% Change section spacing
+\titlespacing*{\section}
+{0pt}{0.15cm}{0.15cm}
+% left, above, below
+
+% Change section spacing
+\titlespacing*{\subsection}
+{0pt}{0.15cm}{0.15cm}
+% left, above, below
+
+% Change section spacing
+\titlespacing*{\subsubsection}
+{0pt}{0.15cm}{0.15cm}
+% left, above, below
+
+% Change line spacing to 1 (as default)
+\singlespacing
+
+% Changing page number in foot to the right of the page
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt} % remove the header rule
+\rfoot{\thepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Equation Styles 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\eqn}[1]{eqn. (#1)}
+\newcommand{\tab}[1]{Table #1}
+\newcommand{\fig}[1]{figure #1}
+\newcommand{\app}[1]{Appendix. #1}
+
+\newcommand{\degreeC}[1]{\SI{#1}{\degreeCelsius}}
+
+\newcommand{\thickhl}{\specialrule{.1em}{.05em}{.05em}}
