@@ -1,0 +1,151 @@
+\documentclass[10pt]{article}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{changepage}
+\usepackage{caption}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{tabto}
+\usepackage{multirow}
+\usepackage{fancyhdr} 
+\usepackage{pdfpages}
+\usepackage{placeins}
+\usepackage[none]{hyphenat} % to prevent hyphenation
+\usepackage{flowchart}\usepackage[paperheight=11.0in,paperwidth=8.5in,left=1.in,right=1.in,top=1.1in,bottom=.85in,headheight=0.35in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{titlesec}
+\usepackage{float}
+\usepackage[english]{babel}
+\usepackage{cancel}
+\usepackage[none]{hyphenat}
+\usepackage{lastpage}
+\usepackage{blindtext}
+\usepackage{listings}
+\usepackage{minted}
+\usepackage{indentfirst}
+\usepackage{mhchem}
+
+
+\pagestyle{fancy}
+\fancyhf{}
+
+
+\titleformat
+{\section} % command
+[hang] % shape {hang, block, runin, leftmargin, rightmargin, drop, wrap, frame}
+{\normalfont\bfseries\wide} % format
+%{Story No. \ \thesection} % label
+{\thesection.} % label
+{0ex} % sep
+{
+} % before-code
+[
+\vspace{0pt} 
+%\rule{\textwidth}{0.3pt}
+] % after-code
+
+\titleformat
+{\subsection} % command
+[hang] % shape
+{\normalfont\bfseries} % format
+{\thesubsection.} % label
+{0ex} % sep
+{
+\vspace{-\ex}
+} % before-code
+[
+\vspace{0pt}
+] % after-code
+
+\setlength{\parindent}{0pt}
+%\setlength{\parskip}{1.3ex}
+%\setlength{\itemsep}{1.3ex}
+
+\captionsetup{justification=centering}
+\setlength{\belowcaptionskip}{0pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+
+%%%%%%%%%%%%%%%%%%%% COMMANDS %%%%%%%%%%%%%%%%%%%%
+
+%\renewcommand{\arraystretch}{1.3}
+%\renewcommand{\baselinestretch}{1.3}
+\newcommand{\p}[1]{{\left(#1\right)}}
+\newcommand{\pb}[1]{\left[#1\right]}
+\newcommand{\beq}[1]{$\mathbf{#1}$}
+\newcommand{\tit}[1]{\textit{#1}}
+\newcommand{\txb}[1]{\textbf{#1}}
+\newcommand{\pderiv}[3][1]{\ifthenelse{\equal{#1}{1}}{\frac{\partial{#2}}{\partial{#3}}}{\frac{\partial{^{#1}#2}}{\partial{#3^{#1}}}}}
+\newcommand{\tderiv}[3][1]{\ifthenelse{\equal{#1}{1}}{\frac{d{#2}}{d{#3}}}{\frac{d{^{#1}#2}}{d{#3^{#1}}}}}
+\newcommand{\deriv}[2]{\frac{d{#1}}{d{#2}}}
+\newcommand*\cqd[1]{\left.#1\right._{\hspace{0.2cm}\blacksquare}}
+\newcommand{\s}[1]{#1^*}
+\newcommand{\lharp}{\rightleftharpoons}
+\newcommand*\pc{\mathcal{P}}
+\newcommand{\Lagr}{\mathcal{L}}
+
+%%%%%%%%%%%%%%%%%%%% HEADER %%%%%%%%%%%%%%%%%%%%
+\lhead{Georgia Institute of Technology\\CX 4240, Introduction to Computational Data Analysis}
+\rhead{Dr. Mahdi-Roozbahani\\Project Proposal, Due on June 11\textsuperscript{th}}
+\rfoot{Page \thepage \hspace{1pt} of \pageref{LastPage}}
+
+%%%%%%%%%%%%%%%%%%%% SPACING %%%%%%%%%%%%%%%%%%%%
+%\setlength{\parskip}{0em}
+%\setlength{\parsep}{0.1em}
+%\setlength{\headsep}{0.1em}
+%\setlength{\topskip}{0.1em}
+%\setlength{\topmargin}{0.1em}
+#\setlength{\topsep}{0.1em}
+%\setlength{\partopsep}{1em}
+\setlength{\parindent}{0em}
+\parindent=0pt
+%\titlespacing*{\section}{0pt}{\baselineskip}{-0.5\baselineskip}
+%\titlespacing*{\section}{0pt}{1\parskip}{\parskip}
+%\titlespacing{\section}{0pt}{*0}{*0}
+%\titlespacing{\subsection}{0pt}{*0}{*0}
+%\titlespacing{\subsubsection}{0pt}{*0}{*0}
+
+
+
+\begin{document}
+
+\begin{center}
+    \large \textbf{Solving ODEs in Chemical Kinetics Using Artificial Neural Network \\}
+    \vspace{0.5em}
+    \normalsize Gabriel S. Gusm\~{a}o\textsuperscript{\textdagger}, \email{gusmaogabriels@gatech.edu}\\ Zhenyi Yu\textsuperscript{\textdagger}, \email{zyu331@gatech.edu}\\Nicole (Yuge) Hu\textsuperscript{\textdagger}, \email{yugehu@gatech.edu}\\ 
+    \vspace{0.2em}
+    \textsuperscript{\textdagger}Department of Chemical and Biomolecular Engineering \\ Georgia Institute of Technology \\
+    \vspace{0.2em}
+    June 9th, 2019 \\
+\end{center}
+
+Ordinary differential equations (ODEs) and partial differential equations define numerous questions in the field of chemical engineering spanning from kinetics to transport phenomena. ODEs can be further classified as boundary value problems (BVP) and initial value problems (IVP) in different contexts. Depending on the specific equations, ODEs might not always have explicit analytical solutions, and therefore numerical methods are developed to calculate final outcomes given the problem can be expressed in a standard form. In this project, we would like to explore the possibility of using artificial neural network (ANN) to approach ODEs in the context of chemical kinetics. The universal approximation theorem for ANNs \textcolor{red}{\todo{(add citation)}} has been shown to extend to ODE solutions \textcolor{red}{\todo{(add citation, Kitchin's blog)}} and maybe explored in the context of stiffness and scattered data.\\ \\
+Kinetics are defined as the rate of reactants converted to products based on stoichiometry. For a general 1\textsuperscript{st} reaction \ce{A ->[k_1] B}, the rate of reaction can be expressed in an ODE $\frac{dC_A}{dt} = k_1 C_A$. More generally, a reaction network can typically be expressed as a linear combination of elementary reaction rates. as in eqn \ref{eqn:1}.
+\begin{align}
+    \frac{dC_i}{dt} = \sum_{j} k_j\prod_{k\in S_j} C_{k}
+    \label{eqn:1}
+\end{align}
+
+Solving this ODE results in concentration profiles of chemical species $i$ over time given boundary conditions at initial and/or final time points. We plan to use forward solutions of arbitrary chemical kinetic networks, as in eqn. \ref{eqn:1}, as the input-output dataset to the proof-of-concept problem. Differently from solving the ODEs themselves, we are here interested in model selection, i.e. given a model candidate, use ANNs to find the parameter set of the model candidate that minimizes some error metric subject to the underlying ODE. Once this framework is well-defined, the ensuing problem is to devise model generation and classification algorithms that span over a large set of potential model candidates and select those of higher likelihood in terms of a trade-off between a complexity metric and cost function minimization. The overall algorithm can be summarized as:
+\begin{enumerate}
+    \item Generate arbitrary models according to eqn. \ref{eqn:1}.
+    \item Solve the forward ODE and add white noise to solution points.
+    \item Generate a set of potential model candidates.
+    \item Solve the reverse problem, i.e. solve the optimization problem $\underset{\theta_{ANN},\theta_{model}}{\min} L(c(t),f(t,c(t),\theta_{ANN},\theta_{model}))$. Where $L$ is some cost function, $f$ is a model candidate, $\theta_{model}=\{k_j\}$ are the model parameters, $\theta_{ANN}$ comprise weights and biases of the ANN, $c(t)$ are observed values (solutions to the ODE) at time $t$. $L$ may potentially include a regularization term, $R(\theta_{model})$, to account for bijections or non-uniqueness. 
+    \item Classify models by generating a Pareto-front of efficient solutions.
+\end{enumerate}
+\medskip
+%% I think this part should be better explained by Gabriel and I like your step numbering during the conversation. 
+We have also envisioned possible difficulties in this project. The greatest of which should be to find expressions for the derivatives of $L$ with respect to $\theta_{model}$, which might be cumbersome to derive analytically given any arbitrary model. Therefore, we might opt for using automatic differentiation packages, such as \textit{autograd}  \textcolor{red}{\todo{(add link)}}. 
+\\ \\
+We would like to use 1\textsuperscript{st} order reactions as a proof of concept to validate our ANN model, and then extend the application to 2\textsuperscript{nd} order reactions to show that this approach is readily applicable to multiple types of chemical kinetic problems. Furtermore, we intend to explore the interplay between ANN and proposed model complexity (number of layers and nodes) with respect to overfitting and generalization.
+
+%% ref: 
+%% http://www.ds3-datascience-polytechnique.fr/wp-content/uploads/2018/06/DS3-593.pdf
+%% https://arxiv.org/pdf/1806.07366.pdf
+
+\end{document}
