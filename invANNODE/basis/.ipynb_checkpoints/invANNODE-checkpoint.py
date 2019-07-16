@@ -40,28 +40,8 @@ import itertools
 from matplotlib import animation
 from IPython.display import HTML
 from IPython.display import display, Image
-from matplotlib.ticker import FormatStrFormatter
 from matplotlib.ticker import MaxNLocator
 
-# **Matplotlib Sizes**
-#
-# *from: https://stackoverflow.com/questions/3899980/how-to-change-the-font-size-on-a-matplotlib-plot/39566040#39566040*
-
-# +
-SMALL_SIZE = 12
-MEDIUM_SIZE = 12
-BIGGER_SIZE = 13
-
-plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
-plt.rc('axes', titlesize=SMALL_SIZE)     # fontsize of the axes title
-plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
-plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
-plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
-plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
-plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
-
-
-# -
 
 # #### Set of helper functions based on [JAX tutorials](https://colab.research.google.com/github/google/jax/blob/master/notebooks/neural_network_with_tfds_data.ipynb) ***(Google Colabs)***
 
@@ -136,51 +116,44 @@ def diff_state(params,t):
         #return (jacobian(batched_state,argnums=1)(params,t)[i,:,i,0])
         return np.nan_to_num(jacfwd(lambda t : batched_state(params,t))(t)[i,:,i,0])
 
-# ### A few highly useful functions 
-#
-# of own authorship
+# +
+# based on https://www.numfys.net/howto/animations/
 
-# #### Generic loss function
-#
-# Returns the sum of individual errors from `get_errors`.
+u = onp.random.rand(10,20)
 
-def loss(get_errors, params, batch):
-    return np.array([_.mean() for _ in get_errors(params,batch)]).sum()
+# First set up the figure, the axis, and the plot element we want to animate
+fig = plt.figure()
+ax = plt.axes(xlim=(0, 1), ylim=(-6, 10))
+dots = ax.scatter([], [],c='',edgecolors='blue',linewidths=1.)
+line, = ax.plot([], [], lw=1)
 
+# Initialization function: plot the background of each frame
+def init():
+    dots.set_offsets(u[:,[0,3]])
+    line.set_data(u[:,0],u[:,1])
+    return line,
 
-# #### Generic training loop function
+# Animation function which updates figure data.  This is called sequentially
+def animate(i):
+    dots.set_offsets( u[:,[0,i]])
+    line.set_data(u[:,0],u[:,i])
+    return line,
 
-def train(params,data,ferrors,loss,num_epochs,num_iter,opt_objs,err_tags,batch_size=None):
-    opt_state, opt_update, get_params, iter_data = opt_objs
-    # Update function (JIT precompiled)
-    @jit
-    def step(i, opt_state, batch):
-        params = get_params(opt_state)
-        grads = grad(lambda errors, params, batch :np.nan_to_num(loss(ferrors, params, batch))\
-                     ,argnums=1)(ferrors, params, batch)  
-        return opt_update(i, grads, opt_state)
-    
-    itercount = itertools.count()        
-    if not batch_size:
-        batch_size = data[0].shape[0]
-    
-    iter_data += [get_params(opt_state).copy()]
-    for j in range(num_epochs):
-        clear_output(wait=True)
-        sel = random.shuffle(random.PRNGKey(j),np.arange(data[0].shape[0])) # random shuffle
-        batch = [_[:batch_size,:] for _ in data]
-        for i in range(int(num_iter)):
-            opt_state = step(next(itercount), opt_state , batch) 
-        params = get_params(opt_state) 
-        loss_it_sample = loss(ferrors, params, batch)    
-        loss_it_batch = loss(ferrors, params, data)
-        errs = [_.sum() for _ in ferrors(params,data)]
-        print('Epoch: {:4d}, Loss Batch: {:.5e}, Loss Data: {:.5e}'.format(j,loss_it_sample,loss_it_batch)+\
-                  ''.join([', Fit {}: {:.5e}'.format(_,__) for _,__ in zip(err_tags,errs)]))
-        iter_data += [params.copy()]
-    
-    return params, [opt_state, opt_update, get_params, iter_data]
+# Call the animator.  blit=True means only re-draw the parts that have changed.
+anim = animation.FuncAnimation(fig, animate, init_func=init,
+                               frames=20, interval=2, blit=True)
 
+plt.close(anim._fig)
+
+# Call function to display the animation
+HTML(anim.to_html5_video())
+
+anim.save('filename.gif', writer='imagemagick')
+
+from IPython.display import Image
+with open('filename.gif','rb') as file:
+    display(Image(file.read()))
+# -
 
 # ### Kinetic Model Definitions
 #
@@ -234,61 +207,9 @@ sol = solve_ivp(ode, (0, tmax), bc0, t_eval = t_eval)
 # -
 
 # #### Numerical Results
-#
-# Can we learn the solution? Interpolate?
 
-# Pack `t` as the generic `data` holder for the NN training.
-
-t = t_eval.reshape(-1,1)
-data_learn = [sol.y.T,t]
-
-
-# #### Interpolating error function
-#
-# Returns:
-#
-#    `err_data`: sum of square-errors between estimated and observaded datapoints.   
-
-def errors_learn(params,batch):
-    nn_params = params[0]
-    x, t = batch
-    pred_x = batched_state(nn_params,t)
-    err_data = (batched_state(nn_params,t)-x)**2 
-    return [err_data]
-
-
-# #### Forward NN intialization parameters
-
-layer_sizes = [1, 8, 3] # inputs, hidden..., output layes
-nn_scale = 0.01 # weights scales
-key = random.PRNGKey(0)
-nn_params = init_network_params(layer_sizes, key, nn_scale) # initialize parameters
-
-# #### Forward training settings
-
-num_epochs = 100
-num_iter = 100
-batch_size = n_points
-
-# **Initialize Optimization Objects**
-
-opt_objs_l = optimizers.adam(1e-3, b1=0.9, b2=0.9999, eps=1e-10)
-opt_objs_l = (opt_objs_l[0]([nn_params, []]), opt_objs_l[1], opt_objs_l[2], [])
-
-# #### Forward problem training loop call
-
-# %%time
-params = [nn_params]
-err_tags = ['Data']
-[params, opt_objs_l] = train(params,data_learn,errors_learn,loss,num_epochs,num_iter,opt_objs_l,err_tags,batch_size=None)
-nn_params  = params[0]
-
-# +
 plt.figure(figsize=[10,10*2./3])
-
-fig, axs = plt.subplots(1,2,figsize=[10.5,10*1./2],dpi=75)
-axs = axs.tolist()
-plt.sca(axs[0])
+t = sol.t
 x0 = sol.y.T
 x = x0
 lines = plt.plot(sol.t, x0)
@@ -297,56 +218,6 @@ plt.xlabel('Time')
 plt.ylabel('C');
 plt.legend(iter(lines), ['A', 'B', 'C'])
 plt.title('ODE Numerical Solution')
-plt.sca(axs[1])
-lines1 = plt.plot(sol.t, x0,'-o',alpha=0.5,ms=3)
-lines2 = [plt.plot([],[],'-o',lw=0.2,\
-                  ms=6,markerfacecolor='None',markeredgecolor='black')[0] for _ in range(3)]
-for _1,_2 in zip(lines1,lines2):
-    _2.set_markeredgecolor(_1.get_markeredgecolor())
-
-leg1 = plt.legend(iter(lines1+lines2), ['A$_{NUM}$', 'B$_{NUM}$', 'C$_{NUM}$','A$_{NN}$','B$_{NN}$','C$_{NN}$'],loc=7)
-plt.title('State Variables')
-plt.xlabel('Time')
-plt.ylabel('C');
-title = fig.suptitle('')
-plt.tight_layout(rect=[0.,0.,1.,0.95])
-
-epochs = [0,1,2]
-while epochs[-1]<len(opt_objs_l[-1])-1:
-    epochs += [int((epochs[-1]+1)**1.05)]
-epochs[-1] = len(opt_objs_l[-1])-1
-pack = list(zip(epochs,[opt_objs_l[-1][int(_)][0] for _ in epochs]))
-
-def init():
-    axs[0].set_ylim([-0.025,1.1])
-    axs[0].set_xlim([-0.1,10.5])
-    axs[1].set_ylim([-0.025,1.1])
-    axs[1].set_xlim([-0.1,10.5])
-    return lines2
-
-def animate(i):
-    epoch, nn_params = pack[i]
-    title.set_text('ODE Interpolation: epoch {:03d}.'.format(int(epoch)))
-    d = batched_state(nn_params, t)
-    for _ in range(d.shape[1]):
-        lines2[_].set_data(t,d[:,_])
-    return lines2
-
-# Call the animator.  blit=True means only re-draw the parts that have changed.
-anim = animation.FuncAnimation(fig, animate, init_func=init,
-                               frames=len(epochs), interval=250, blit=True)
-
-plt.close(anim._fig)
-
-# Call function to display the animation
-HTML(anim.to_html5_video())
-
-anim.save('intro.gif', writer='imagemagick')
-
-from IPython.display import Image
-with open('intro.gif','rb') as file:
-    display(Image(file.read()))
-# -
 
 # ## 1. Neural Net (NN) ODE ***forward*** solution
 #
@@ -374,10 +245,53 @@ def errors_fwd(params,batch):
     return [err_model, err_bc]
 
 
+# #### Generic loss function
+#
+# Returns the sum of individual errors from `get_errors`.
+
+def loss(get_errors, params, batch):
+    return np.array([_.mean() for _ in get_errors(params,batch)]).sum()
+
+
+# #### Generic training loop function
+
+def train(params,data,ferrors,loss,num_epochs,num_iter,opt_objs,err_tags,batch_size=None):
+    opt_state, opt_update, get_params, iter_data = opt_objs
+    # Update function (JIT precompiled)
+    @jit
+    def step(i, opt_state, batch):
+        params = get_params(opt_state)
+        grads = grad(lambda errors, params, batch :np.nan_to_num(loss(ferrors, params, batch))\
+                     ,argnums=1)(ferrors, params, batch)  
+        return opt_update(i, grads, opt_state)
+    
+    itercount = itertools.count()        
+    if not batch_size:
+        batch_size = data[0].shape[0]
+    
+    iter_data += [get_params(opt_state).copy()]
+    for j in range(num_epochs):
+        clear_output(wait=True)
+        sel = random.shuffle(random.PRNGKey(j),np.arange(data[0].shape[0])) # random shuffle
+        batch = [_[:batch_size,:] for _ in data]
+        for i in range(int(num_iter)):
+            opt_state = step(next(itercount), opt_state , batch) 
+        params = get_params(opt_state) 
+        loss_it_sample = loss(ferrors, params, batch)    
+        loss_it_batch = loss(ferrors, params, data)
+        errs = [_.sum() for _ in ferrors(params,data)]
+        print('Epoch: {:4d}, Loss Batch: {:.5e}, Loss Data: {:.5e}'.format(j,loss_it_sample,loss_it_batch)+\
+                  ''.join([', Fit {}: {:.5e}'.format(_,__) for _,__ in zip(err_tags,errs)]))
+        iter_data += [params.copy()]
+    
+    return params, [opt_state, opt_update, get_params, iter_data]
+
+
 # #### Forward NN intialization parameters
 
 layer_sizes = [1, 8, 3] # inputs, hidden..., output layes
 nn_scale = 0.01 # weights scales
+key = random.PRNGKey(0)
 nn_params = init_network_params(layer_sizes, key, nn_scale) # initialize parameters
 
 # #### Forward training settings
@@ -423,8 +337,8 @@ x_parity = batched_model([x,t],model_params0)
 y_parity = batched_model([batched_state(nn_params,t),t],model_params0)
 x_parity, y_parity = [(_-_.mean(axis=0))/_.std(axis=0) for _ in [x_parity, y_parity]]
 linesp = [plt.plot([],[],'o',lw=0.2,ms=4,alpha=0.5)[0] for _ in range(3)]
-leg2 = plt.legend(['A','B','C'],loc=4)
-plt.title('Whittened Derivatives Parity Plot')
+leg2 = plt.legend(['A','B','C'])
+plt.title('Derivatives Parity Plot')
 plt.xlabel('Model')
 plt.ylabel('ANN');
 title = fig.suptitle('')
@@ -466,10 +380,10 @@ plt.close(anim._fig)
 # Call function to display the animation
 HTML(anim.to_html5_video())
 
-anim.save('fwd.gif', writer='imagemagick')
+anim.save('intro.gif', writer='imagemagick')
 
 from IPython.display import Image
-with open('fwd.gif','rb') as file:
+with open('intro.gif','rb') as file:
     display(Image(file.read()))
 
 
@@ -549,7 +463,7 @@ plt.ylabel('C');
 plt.sca(axs[1])
 linesp = [plt.plot([],[],'o',lw=0.2,ms=4,alpha=0.5)[0] for _ in range(3)]
 leg2 = plt.legend(['A','B','C'])
-plt.title('Whittened Derivatives Parity Plot')
+plt.title('Derivatives Parity Plot')
 plt.xlabel('Model')
 plt.ylabel('ANN');
 plt.sca(axs[2])
@@ -563,7 +477,6 @@ for _ in range(len(lines3)):
 plt.plot([0,200],[1,1],'-',lw=0.5,alpha=0.2,color='blue')
 plt.legend(iter(lines3), ['$k_1$','$k_2$'],loc=4)
 axs[2].xaxis.set_major_locator(MaxNLocator(integer=True))
-axs[2].yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
 
 title = fig.suptitle('')
 plt.tight_layout(rect=[0.,0.,1.,0.95])
@@ -646,7 +559,7 @@ params = [nn_params, model_params] #pack
 
 # #### Inverse training settings given noisy data
 
-num_epochs = 100
+num_epochs = 200
 num_iter = 100
 batch_size = n_points
 
@@ -685,7 +598,7 @@ plt.ylabel('C');
 plt.sca(axs[1])
 linesp = [plt.plot([],[],'o',lw=0.2,ms=4,alpha=0.5)[0] for _ in range(3)]
 leg2 = plt.legend(['A','B','C'])
-plt.title('Whittened Derivatives Parity Plot')
+plt.title('Derivatives Parity Plot')
 plt.xlabel('Model')
 plt.ylabel('ANN');
 plt.sca(axs[2])
@@ -699,7 +612,6 @@ for _ in range(len(lines3)):
 plt.plot([0,200],[1,1],'-',lw=0.5,alpha=0.2,color='blue')
 plt.legend(iter(lines3), ['$k_1$','$k_2$'],loc=4)
 axs[2].xaxis.set_major_locator(MaxNLocator(integer=True))
-axs[2].yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
 
 title = fig.suptitle('')
 plt.tight_layout(rect=[0.,0.,1.,0.95])
@@ -909,7 +821,7 @@ batch_size = None
 # **Initialize Optimization Objects**
 
 opt_latent = optimizers.adam(1e-3, b1=0.9, b2=0.9999, eps=1e-100)
-opt_latent = (opt_latent[0](params), opt_latent[1], opt_latent[2], [])
+opt_latent = (opt_latent[0](params), opt_latent[1], opt_latent[2])
 
 # #### Inverse problem training loop call for the latent-variables model
 
@@ -952,7 +864,7 @@ plt.plot(batched_model([x_latent,t_latent],model_params_latent0),\
          batched_model([batched_state(nn_params_latent,t_latent),t_latent],model_params_latent),\
          'o',lw=0.2,ms=2)
 plt.legend(['A$_{NN}$','B$_{NN}$','C$_{NN}$'])
-plt.title('Whittened Derivatives Parity Plot - Noisy Data')
+plt.title('Derivatives Parity Plot - Noisy Data')
 plt.xlabel('Model')
 plt.ylabel('ANN');
 
