@@ -13256,10 +13256,8 @@ a.anchor-link {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="1.-Introduction:">1. Introduction:<a class="anchor-link" href="#1.-Introduction:">&#182;</a></h3><p><strong>a. Background: Chemical Reactions:</strong> each state variable and time are features that can be synthetically created.</p>
-$$A\overset{k_1}{\to} B\overset{k_2}{\to} C\notag $$<p>Set of coupled ordinary differential equations (ODEs):
-$$\frac{dC_A}{dt} = -k_{1} C_A$$
-$$\frac{dC_B}{dt} = k_1 C_A-k_2 C_B$$
-$$\frac{dC_C}{dt} = k_2 C_B$$</p>
+$$A\overset{k_1}{\to} B\overset{k_2}{\to} C\notag $$<p>Set of coupled ordinary differential equations (ODEs):</p>
+$$\frac{dC_A}{dt} = -k_{1} C_A$$$$\frac{dC_B}{dt} = k_1 C_A-k_2 C_B$$$$\frac{dC_C}{dt} = k_2 C_B$$<p></p>
 
 </div>
 </div>
@@ -13280,15 +13278,29 @@ $$\frac{dC_C}{dt} = k_2 C_B$$</p>
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="1.-Introduction:">1. Introduction:<a class="anchor-link" href="#1.-Introduction:">&#182;</a></h3><p><strong>c. Validation: Can a neural network learn (interpolate) the ODE numerical solution?</strong></p>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="./invANNODE/basis/intro.gif" style="width: 700px;"/></p>
 
 </div>
 </div>
-</div></section></section><section><section>
+</div></div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="1.-Introduction:">1. Introduction:<a class="anchor-link" href="#1.-Introduction:">&#182;</a></h3><p><strong>d. Forward problem:</strong> get the solution only using k values (model parameters), the governing equation and boundary conditions.</p>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>f. Inverse Problem:</strong> infer k values given data and governing equations.</p>
 <ul>
 <li>Model Selection and Parameter Fitting</li>
@@ -13296,7 +13308,7 @@ $$\frac{dC_C}{dt} = k_2 C_B$$</p>
 
 </div>
 </div>
-</div></section></section><section><section>
+</div></div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13311,14 +13323,6 @@ $$\frac{dC_C}{dt} = k_2 C_B$$</p>
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="3.-Result-&amp;-Discussion">3. Result &amp; Discussion<a class="anchor-link" href="#3.-Result-&amp;-Discussion">&#182;</a></h3><p><strong>All ANN have a single hidden layer (8 to 10 neurons) and use hyperbolic tangent activation function (in exponential form).</strong></p>
-<h4 id="3.1-Forward-problem">3.1 Forward problem<a class="anchor-link" href="#3.1-Forward-problem">&#182;</a></h4><p>NN ODE forward solution and derivatives of model and ANN</p>
-<div>
-  <img src="./invANNODE/basis/fwd.gif" alt="overview" style="width: 700px;"/> 
-</div><p>Using <a href="https://arxiv.org/abs/1412.6980v9">ADAM optimizer</a> (arXiv:1412.6980 [cs.LG])</p>
-<ul>
-<li>ANN can readily be applied to solve forward ODE problems by interpolating between data. </li>
-<li>ANN method has gradient converge to model after about 80 epochs of 100 iterations each. </li>
-</ul>
 
 </div>
 </div>
@@ -13326,11 +13330,31 @@ $$\frac{dC_C}{dt} = k_2 C_B$$</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="3.1-Forward-problem">3.1 Forward problem<a class="anchor-link" href="#3.1-Forward-problem">&#182;</a></h4><div>
+  <img src="./invANNODE/basis/fwd.gif" alt="overview" style="width: 700px;"/> 
+</div><p>Using <a href="https://arxiv.org/abs/1412.6980v9">ADAM optimizer</a> (arXiv:1412.6980 [cs.LG])</p>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>ANN can readily be applied to solve forward ODE problems by interpolating between data. </li>
+<li>ANN method has gradient converge to model after about 80 epochs of 100 iterations each. </li>
+</ul>
+
+</div>
+</div>
+</div></div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="3.-Result-&amp;-Discussion">3. Result &amp; Discussion<a class="anchor-link" href="#3.-Result-&amp;-Discussion">&#182;</a></h3><h4 id="3.2-Inverse-problem">3.2 Inverse problem<a class="anchor-link" href="#3.2-Inverse-problem">&#182;</a></h4><p>NN ODE inverse solution and derivatives of model and ANN</p>
 <div>
     <img src="./invANNODE/basis/non_noise.gif" alt="overview" style="width: 900px;"/> 
-</div><p>Model parameter comparison at epochs = 200</p>
-<table>
+</div><h4 id="Model-parameter-comparison-at-epochs-=-200">Model parameter comparison at epochs = 200<a class="anchor-link" href="#Model-parameter-comparison-at-epochs-=-200">&#182;</a></h4><table>
 <thead><tr>
 <th>True $k_{1}$</th>
 <th>Regressed $ k_{1}$</th>
@@ -13347,13 +13371,20 @@ $$\frac{dC_C}{dt} = k_2 C_B$$</p>
 </tr>
 </tbody>
 </table>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <ul>
 <li>NN can also be applied to solve inverse ODE problems and extract model parameters. </li>
 </ul>
 
 </div>
 </div>
-</div></section></section><section><section>
+</div></div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13362,14 +13393,21 @@ $$\frac{dC_C}{dt} = k_2 C_B$$</p>
 <p>ANN ODE noisy data solution and derivatives of model and NN</p>
 <div>
     <img src="./invANNODE/basis/noisy.gif" alt="overview" style="width: 900px;"/> 
-</div><ul>
+</div>
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
 <li>NN model adapt well to data with significant noises.</li>
 <li>One hidden layer and small number of nodes were used in ANN to avoid over-fitting.</li>
 </ul>
 
 </div>
 </div>
-</div></section></section><section><section>
+</div></div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13399,7 +13437,15 @@ $$\frac{dC_C}{dt} = k_2 C_B$$</p>
 <h1 id="Thank-you!">Thank you!<a class="anchor-link" href="#Thank-you!">&#182;</a></h1>
 </div>
 </div>
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Questions?">Questions?<a class="anchor-link" href="#Questions?">&#182;</a></h1>
 </div>
+</div>
+</div><aside class="notes">
+
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13434,6 +13480,8 @@ $$\frac{dC_C}{dt} = k_2 C_B$$</p>
 </div>
 </div>
 </div>
+</aside><aside class="notes">
+
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13447,7 +13495,8 @@ $$\frac{dC_C}{dt} = k_2 C_B$$</p>
 
 </div>
 </div>
-</div></section></section>
+</div>
+</aside></div></section></section>
 </div>
 </div>
 
