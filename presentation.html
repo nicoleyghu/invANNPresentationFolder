@@ -13159,17 +13159,8 @@ $$A\overset{k_1}{\to} B\overset{k_2}{\to} C\notag $$
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="2.-Model:-Inverse-ANN-solution-for-ODE's-for-model-selection-and-parameter-regression.">2. Model: Inverse ANN solution for ODE's for model selection and parameter regression.<a class="anchor-link" href="#2.-Model:-Inverse-ANN-solution-for-ODE's-for-model-selection-and-parameter-regression.">&#182;</a></h3><h4 id="2.1-Forward-Problem">2.1 Forward Problem<a class="anchor-link" href="#2.1-Forward-Problem">&#182;</a></h4><p>The forward problem consists of solving the following minimization problem, where $\theta_{i}$ is a general array of parameters of $i$. In the forward mode, the model and its parameters, $\theta_{model}$ are known, and state variables $x(t)$ are solved for. $\gamma$ generalizes the chosen norm.</p>
-<p>$$\underset{\theta_{ANN}}{\min}\|\dot{x}(\theta_{ANN} | t)-f(x|\theta_{model}) \|_{\gamma}$$</p>
-<p>for $f(x)=\dot{x}$ and $\dot{x}$ can be estimated as of backprogapation (chain rule) through the ANN, in which case we shall use automatic differentiation.</p>
-<h4 id="2.2-Inverse-Problem">2.2 Inverse Problem<a class="anchor-link" href="#2.2-Inverse-Problem">&#182;</a></h4><p>Now state variables $x(t)$ are given and neither the model nor its parameters are known.</p>
-<p>$$\underset{\theta_{ANN},\theta_{model}}{\min}\alpha\|\tilde{x}(t)-x(\theta_{ANN} | t) \|_{\gamma}+(1-\alpha)\|\dot{x}(\theta_{ANN} | t)-f(x|\theta_{model}) \|_{\gamma}+\mathcal{R}(\theta_{model})$$</p>
-<p>$\alpha$ can be atrbitrarily defined or evaluated in order to minimize the cost function. If $\alpha\to1$, the ANN accurately maps data from $t$ to $x$ but is not necessarily attached to the model; the opposite being true as $\alpha\to0$. $\mathcal{R}(\theta_{model})$ is a regularization term on model parameters to avoid derailing during the iterative minimization process.</p>
-<p>Regularization might not be necessary if cross-validation is used in the learning process.</p>
-<p><p></p></p>
-<p><div align="center">
-<b> Project Diagram</b>
-</div>
+<h3 id="2.-Model:-Inverse-ANN-solution-for-ODE's-for-model-selection-and-parameter-regression.">2. Model: Inverse ANN solution for ODE's for model selection and parameter regression.<a class="anchor-link" href="#2.-Model:-Inverse-ANN-solution-for-ODE's-for-model-selection-and-parameter-regression.">&#182;</a></h3><h4 id="Project-Diagram-/-Workflow">Project Diagram / Workflow<a class="anchor-link" href="#Project-Diagram-/-Workflow">&#182;</a></h4><p><p></p>
+&lt;/div&gt;
   <img src="./imgs/fig3.png" alt="overview"></p>
 
 </div>

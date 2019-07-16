@@ -60,28 +60,8 @@
 # + {"slideshow": {"slide_type": "slide"}, "cell_type": "markdown"}
 # ### 2. Model: Inverse ANN solution for ODE's for model selection and parameter regression.
 #
-#  
-# #### 2.1 Forward Problem 
-#
-#    The forward problem consists of solving the following minimization problem, where $\theta_{i}$ is a general array of parameters of $i$. In the forward mode, the model and its parameters, $\theta_{model}$ are known, and state variables $x(t)$ are solved for. $\gamma$ generalizes the chosen norm.
-#    
-#    $$\underset{\theta_{ANN}}{\min}\|\dot{x}(\theta_{ANN} | t)-f(x|\theta_{model}) \|_{\gamma}$$
-#    
-#    for $f(x)=\dot{x}$ and $\dot{x}$ can be estimated as of backprogapation (chain rule) through the ANN, in which case we shall use automatic differentiation.
-#    
-# #### 2.2 Inverse Problem
-#
-#    Now state variables $x(t)$ are given and neither the model nor its parameters are known.
-#    
-#    $$\underset{\theta_{ANN},\theta_{model}}{\min}\alpha\|\tilde{x}(t)-x(\theta_{ANN} | t) \|_{\gamma}+(1-\alpha)\|\dot{x}(\theta_{ANN} | t)-f(x|\theta_{model}) \|_{\gamma}+\mathcal{R}(\theta_{model})$$
-#    
-#    $\alpha$ can be atrbitrarily defined or evaluated in order to minimize the cost function. If $\alpha\to1$, the ANN accurately maps data from $t$ to $x$ but is not necessarily attached to the model; the opposite being true as $\alpha\to0$. $\mathcal{R}(\theta_{model})$ is a regularization term on model parameters to avoid derailing during the iterative minimization process.
-#    
-#    Regularization might not be necessary if cross-validation is used in the learning process.   
-#       
-#    <p></p>
-# <div align="center">
-# <b> Project Diagram</b>
+# #### Project Diagram / Workflow
+# <p></p>
 # </div>
 #   <img src="./imgs/fig3.png" alt="overview"> 
 
