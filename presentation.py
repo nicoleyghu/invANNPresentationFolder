@@ -36,11 +36,9 @@
 # $$A\overset{k_1}{\to} B\overset{k_2}{\to} C\notag $$     
 #
 # Set of coupled ordinary differential equations (ODEs):
-# \begin{align}
-# \frac{dC_A}{dt}& = -k_{1} C_A \\
-# \frac{dC_B}{dt}& = k_1 C_A-k_2 C_B\\
-# \frac{dC_C}{dt}& = k_2 C_B \\
-# \end{align}
+# $$\frac{dC_A}{dt} = -k_{1} C_A$$
+# $$\frac{dC_B}{dt} = k_1 C_A-k_2 C_B$$
+# $$\frac{dC_C}{dt} = k_2 C_B$$   
 #
 # **b. Goal: solve Ordinary Differential Equations (ODEs).**
 #   - Traditional solution: discrete, iterative, problem dependent.
