@@ -33,7 +33,7 @@
 #
 # **a. Background: Chemical Reactions**
 #
-# $$A\overset{k_1}{\to} B\overset{k_2}{\to} C\notag $$     
+# $$A\overset{k_1}{\to} B\overset{k_2}{\to} C\notag $$
 #
 # Set of coupled ordinary differential equations (ODEs):
 # $$\frac{dC_A}{dt} = -k_{1} C_A$$
