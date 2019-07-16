@@ -13260,14 +13260,35 @@ $$A\overset{k_1}{\to} B\overset{k_2}{\to} C\notag $$<p>Set of coupled ordinary d
 $$\frac{dC_A}{dt} = -k_{1} C_A$$
 $$\frac{dC_B}{dt} = k_1 C_A-k_2 C_B$$
 $$\frac{dC_C}{dt} = k_2 C_B$$</p>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>b. Goal: solve Ordinary Differential Equations (ODEs).</strong></p>
 <ul>
 <li>Traditional solution: discrete, iterative, problem dependent.</li>
 <li>Neural Network: flexible, continuous, parallelizable.    </li>
 </ul>
-<p><strong>c. Validation: Can a neural network learn (interpolate) the ODE numerical solution?</strong></p>
+
+</div>
+</div>
+</div></div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="1.-Introduction:">1. Introduction:<a class="anchor-link" href="#1.-Introduction:">&#182;</a></h3><p><strong>c. Validation: Can a neural network learn (interpolate) the ODE numerical solution?</strong></p>
 <p><img src="./invANNODE/basis/intro.gif" style="width: 700px;"/></p>
-<p><strong>d. Forward problem:</strong> get the solution only using k values (model parameters), the governing equation and boundary conditions.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="1.-Introduction:">1. Introduction:<a class="anchor-link" href="#1.-Introduction:">&#182;</a></h3><p><strong>d. Forward problem:</strong> get the solution only using k values (model parameters), the governing equation and boundary conditions.</p>
 <p><strong>f. Inverse Problem:</strong> infer k values given data and governing equations.</p>
 <ul>
 <li>Model Selection and Parameter Fitting</li>
@@ -13298,7 +13319,14 @@ $$\frac{dC_C}{dt} = k_2 C_B$$</p>
 <li>ANN can readily be applied to solve forward ODE problems by interpolating between data. </li>
 <li>ANN method has gradient converge to model after about 80 epochs of 100 iterations each. </li>
 </ul>
-<h4 id="3.2-Inverse-problem">3.2 Inverse problem<a class="anchor-link" href="#3.2-Inverse-problem">&#182;</a></h4><p>NN ODE inverse solution and derivatives of model and ANN</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="3.-Result-&amp;-Discussion">3. Result &amp; Discussion<a class="anchor-link" href="#3.-Result-&amp;-Discussion">&#182;</a></h3><h4 id="3.2-Inverse-problem">3.2 Inverse problem<a class="anchor-link" href="#3.2-Inverse-problem">&#182;</a></h4><p>NN ODE inverse solution and derivatives of model and ANN</p>
 <div>
     <img src="./invANNODE/basis/non_noise.gif" alt="overview" style="width: 900px;"/> 
 </div><p>Model parameter comparison at epochs = 200</p>
@@ -13322,6 +13350,14 @@ $$\frac{dC_C}{dt} = k_2 C_B$$</p>
 <ul>
 <li>NN can also be applied to solve inverse ODE problems and extract model parameters. </li>
 </ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="3.-Result-&amp;-Discussion">3. Result &amp; Discussion<a class="anchor-link" href="#3.-Result-&amp;-Discussion">&#182;</a></h3><p><strong>All ANN have a single hidden layer (8 to 10 neurons) and use hyperbolic tangent activation function (in exponential form).</strong></p>
 <h4 id="3.3-Noisy-data">3.3 Noisy data<a class="anchor-link" href="#3.3-Noisy-data">&#182;</a></h4><p>Added noise to data generated to model actual experimental errors.</p>
 <p>ANN ODE noisy data solution and derivatives of model and NN</p>
 <div>
@@ -13330,16 +13366,37 @@ $$\frac{dC_C}{dt} = k_2 C_B$$</p>
 <li>NN model adapt well to data with significant noises.</li>
 <li>One hidden layer and small number of nodes were used in ANN to avoid over-fitting.</li>
 </ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Discussion">Discussion<a class="anchor-link" href="#Discussion">&#182;</a></h3><ul>
 <li>NN has the advantages of being continuous, differentiable, closed-form solution in ANN meaning that it requires less memory, but at the same time, it requires more time to train on the dataset. </li>
 <li>NN can solve kinetics ODE in forward and inverse fashion. </li>
 <li>NN also works with noisy dataset that mimics actual experiment measurements. </li>
 </ul>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Future-work:">Future work:<a class="anchor-link" href="#Future-work:">&#182;</a></h3><ul>
 <li>Compatibility of ANN with stiff problems</li>
 <li>Optimize discretization of domain like ivp_solver. </li>
 </ul>
 
+</div>
+</div>
+</div></div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Thank-you!">Thank you!<a class="anchor-link" href="#Thank-you!">&#182;</a></h1>
 </div>
 </div>
 </div>
