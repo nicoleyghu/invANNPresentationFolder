@@ -75,7 +75,7 @@
 #   <img src="./invANNODE/basis/fwd.gif" alt="overview" style="width: 700px;"/> 
 # </div>
 #
-# Usign [ADAM optimizer](https://arxiv.org/abs/1412.6980v9) (arXiv:1412.6980 [cs.LG])
+# Using [ADAM optimizer](https://arxiv.org/abs/1412.6980v9) (arXiv:1412.6980 [cs.LG])
 # - ANN can readily be applied to solve forward ODE problems by interpolating between data. 
 # - ANN method has gradient converge to model after about 80 epochs of 100 iterations each. 
 #
