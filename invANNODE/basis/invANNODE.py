@@ -60,6 +60,13 @@ plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
 plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
+left  = 0.05  # the left side of the subplots of the figure
+right = 0.925    # the right side of the subplots of the figure
+bottom = 0.15   # the bottom of the subplots of the figure
+top = 0.85      # the top of the subplots of the figure
+wspace = 0.25   # the amount of width reserved for blank space between subplots
+hspace = 0.25   # the amount of height reserved for white space between subplots
+
 
 # -
 
@@ -533,7 +540,7 @@ nn_params_inv, model_params_inv = params
 # This is neat. For linear problems with respect to parameters, the latter can be trained along with a NN and the results are pretty accurate given the low number of training epochs a priori defined.
 
 # +
-fig, axs = plt.subplots(1,3,figsize=[13.5,10*1./2],dpi=75)
+fig, axs = plt.subplots(1,3,figsize=[13.5,10*0.45],dpi=75)
 axs = axs.tolist()
 plt.sca(axs[0])
 lines1 = plt.plot(sol.t, x0,'-o',alpha=0.5,ms=3)
@@ -567,6 +574,7 @@ axs[2].yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
 
 title = fig.suptitle('')
 plt.tight_layout(rect=[0.,0.,1.,0.95])
+plt.subplots_adjust(left, bottom, right, top, wspace, hspace)
 
 epochs = [0,1,2]
 while epochs[-1]<len(opt_inv[-1])-1:
@@ -668,7 +676,7 @@ nn_params_inv_noisy, model_params_noisy = params
 # The noisy-data results have really impressed me. I was not expecting such tight regression without adding extra-time as compared both to solving the forward and the noise-free inverse problem.
 
 # +
-fig, axs = plt.subplots(1,3,figsize=[13.5,10*1./2],dpi=75)
+fig, axs = plt.subplots(1,3,figsize=[13.5,10*0.45],dpi=75)
 axs = axs.tolist()
 plt.sca(axs[0])
 lines1 = plt.plot(sol.t, data_inv_noisy[0],'-o',alpha=0.5,ms=3,lw=0.5)
@@ -703,6 +711,7 @@ axs[2].yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
 
 title = fig.suptitle('')
 plt.tight_layout(rect=[0.,0.,1.,0.95])
+plt.subplots_adjust(left, bottom, right, top, wspace, hspace)
 
 epochs = [0,1,2]
 while epochs[-1]<len(opt_inv_noisy[-1])-1:
