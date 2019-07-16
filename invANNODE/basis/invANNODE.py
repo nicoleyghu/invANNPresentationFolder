@@ -555,7 +555,7 @@ plt.xlabel('Time')
 plt.ylabel('C');
 plt.sca(axs[1])
 linesp = [plt.plot([],[],'o',lw=0.2,ms=4,alpha=0.5)[0] for _ in range(3)]
-leg2 = plt.legend(['A','B','C'])
+leg2 = plt.legend(['A','B','C'],loc=4)
 plt.title('Whittened Derivatives Parity Plot')
 plt.xlabel('Model')
 plt.ylabel('ANN');
