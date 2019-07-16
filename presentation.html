@@ -13129,26 +13129,20 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="1.-Introduction:">1. Introduction:<a class="anchor-link" href="#1.-Introduction:">&#182;</a></h3><p><strong>a. Background: Chemical Reactions</strong></p>
-$$A\overset{k_1}{\to} B\overset{k_2}{\to} C\notag $$
-<pre><code> 
-
-</code></pre>
-<p>Set of coupled ordinary differential equations (ODEs):
-\begin{align}
-\frac{dC_A}{dt}&amp; = -k_{1} C_A \\
-\frac{dC_B}{dt}&amp; = k_1 C_A-k_2 C_B\\
-\frac{dC_C}{dt}&amp; = k_2 C_B \\
-\end{align}</p>
+<h3 id="1.-Introduction:">1. Introduction:<a class="anchor-link" href="#1.-Introduction:">&#182;</a></h3><p><strong>a. Background: Chemical Reactions:</strong> each state variable and time are features that can be synthetically created.</p>
+$$A\overset{k_1}{\to} B\overset{k_2}{\to} C\notag $$<p>Set of coupled ordinary differential equations (ODEs):
+$$\frac{dC_A}{dt} = -k_{1} C_A$$
+$$\frac{dC_B}{dt} = k_1 C_A-k_2 C_B$$
+$$\frac{dC_C}{dt} = k_2 C_B$$</p>
 <p><strong>b. Goal: solve Ordinary Differential Equations (ODEs).</strong></p>
 <ul>
 <li>Traditional solution: discrete, iterative, problem dependent.</li>
 <li>Neural Network: flexible, continuous, parallelizable.    </li>
 </ul>
 <p><strong>c. Validation: Can a neural network learn (interpolate) the ODE numerical solution?</strong></p>
-<p><img src="./invANNODE/basis/intro.gif"></p>
-<p><strong>d. Forward problem: get solution only using k-value</strong></p>
-<p><strong>f. Inverse Problem: get k-value using data</strong></p>
+<p><img src="./invANNODE/basis/intro.gif" style="width: 700px;"/></p>
+<p><strong>d. Forward problem:</strong> get the solution only using k values (model parameters), the governing equation and boundary conditions.</p>
+<p><strong>f. Inverse Problem:</strong> infer k values given data and governing equations.</p>
 <ul>
 <li>Model Selection and Parameter Fitting</li>
 </ul>
@@ -13159,27 +13153,29 @@ $$A\overset{k_1}{\to} B\overset{k_2}{\to} C\notag $$
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="2.-Model:-Inverse-ANN-solution-for-ODE's-for-model-selection-and-parameter-regression.">2. Model: Inverse ANN solution for ODE's for model selection and parameter regression.<a class="anchor-link" href="#2.-Model:-Inverse-ANN-solution-for-ODE's-for-model-selection-and-parameter-regression.">&#182;</a></h3><h4 id="Project-Diagram-/-Workflow">Project Diagram / Workflow<a class="anchor-link" href="#Project-Diagram-/-Workflow">&#182;</a></h4><p><p></p>
-&lt;/div&gt;
-  <img src="./imgs/fig3.png" alt="overview"></p>
-
+<h3 id="2.-Model:-Inverse-ANN-solution-for-ODE's-for-model-selection-and-parameter-regression.">2. Model: Inverse ANN solution for ODE's for model selection and parameter regression.<a class="anchor-link" href="#2.-Model:-Inverse-ANN-solution-for-ODE's-for-model-selection-and-parameter-regression.">&#182;</a></h3><h4 id="Project-Diagram-/-Workflow">Project Diagram / Workflow<a class="anchor-link" href="#Project-Diagram-/-Workflow">&#182;</a></h4><p><p></p></p>
+<div>
+  <img src="./imgs/fig3.png" alt="overview" style="width: 900px;"/> 
+</div>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="3.-Result-&amp;-Discussion">3. Result &amp; Discussion<a class="anchor-link" href="#3.-Result-&amp;-Discussion">&#182;</a></h3><h4 id="3.1-Forward-problem">3.1 Forward problem<a class="anchor-link" href="#3.1-Forward-problem">&#182;</a></h4><p>NN ODE forward solution and derivatives of model and ANN</p>
-<p>&lt;/div&gt;
-  <img src="./invANNODE/basis/fwd.gif" alt="overview"></p>
+<h3 id="3.-Result-&amp;-Discussion">3. Result &amp; Discussion<a class="anchor-link" href="#3.-Result-&amp;-Discussion">&#182;</a></h3><p><strong>All ANN have a single hidden layer (8 to 10 neurons) and use hyperbolic tangent activation function (in exponential form).</strong></p>
+<h4 id="3.1-Forward-problem">3.1 Forward problem<a class="anchor-link" href="#3.1-Forward-problem">&#182;</a></h4><p>NN ODE forward solution and derivatives of model and ANN</p>
+<div>
+  <img src="./invANNODE/basis/fwd.gif" alt="overview" style="width: 700px;"/> 
+</div><p>Usign <a href="https://arxiv.org/abs/1412.6980v9">ADAM optimizer</a> (arXiv:1412.6980 [cs.LG])</p>
 <ul>
 <li>ANN can readily be applied to solve forward ODE problems by interpolating between data. </li>
-<li>ANN method has gradient converge to model after about 80 iterations. </li>
+<li>ANN method has gradient converge to model after about 80 epochs of 100 iterations each. </li>
 </ul>
 <h4 id="3.2-Inverse-problem">3.2 Inverse problem<a class="anchor-link" href="#3.2-Inverse-problem">&#182;</a></h4><p>NN ODE inverse solution and derivatives of model and ANN</p>
-<p>&lt;/div&gt;
-    <img src="./invANNODE/basis/non_noise.gif" alt="overview"></p>
-<p>Model parameter comparison at epochs = 200</p>
+<div>
+    <img src="./invANNODE/basis/non_noise.gif" alt="overview" style="width: 900px;"/> 
+</div><p>Model parameter comparison at epochs = 200</p>
 <table>
 <thead><tr>
 <th>True $k_{1}$</th>
@@ -13202,9 +13198,9 @@ $$A\overset{k_1}{\to} B\overset{k_2}{\to} C\notag $$
 </ul>
 <h4 id="3.3-Noisy-data">3.3 Noisy data<a class="anchor-link" href="#3.3-Noisy-data">&#182;</a></h4><p>Added noise to data generated to model actual experimental errors.</p>
 <p>ANN ODE noisy data solution and derivatives of model and NN</p>
-<p>&lt;/div&gt;
-    <img src="./invANNODE/basis/noisy.gif" alt="overview"></p>
-<ul>
+<div>
+    <img src="./invANNODE/basis/noisy.gif" alt="overview" style="width: 900px;"/> 
+</div><ul>
 <li>NN model adapt well to data with significant noises.</li>
 <li>One hidden layer and small number of nodes were used in ANN to avoid over-fitting.</li>
 </ul>
@@ -13262,8 +13258,8 @@ $$A\overset{k_1}{\to} B\overset{k_2}{\to} C\notag $$
 <li>Automatic differentiation: <a href="https://github.com/google/jax"><strong>JAX</strong></a> (<a href="https://github.com/google/jax">https://github.com/google/jax</a>)</li>
 <li>Array-operation: <a href="https://www.numpy.org/"><strong>numpy</strong></a></li>
 <li>Solution for initial-value problems, IVPs (forward problem): <a href="https://github.com/asanet/dasslc2py"><strong>dasslc2py</strong></a> (<a href="https://github.com/asanet/dasslc2py">https://github.com/asanet/dasslc2py</a>) or <a href="https://www.scipy.org/"><strong>scipy</strong></a></li>
-<li>Non-linear minimization (optimization): <a href="https://www.scipy.org/"><strong>scipy</strong></a> ... for now.</li>
-<li>Artificial Neural Networks (ANN): <a href="https://www.tensorflow.org/"><strong>TensorFlow</strong></a> (<a href="https://www.tensorflow.org/">https://www.tensorflow.org/</a>)</li>
+<li><s>Non-linear minimization (optimization): [**scipy**](https://www.scipy.org/) ... for now.]</s> [<strong>JAX</strong>]</li>
+<li><s>Artificial Neural Networks (ANN): [**TensorFlow**](https://www.tensorflow.org/) (https://www.tensorflow.org/)</s> [<strong>JAX</strong>]</li>
 </ul>
 
 </div>
