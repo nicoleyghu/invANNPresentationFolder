@@ -46,7 +46,7 @@
 #   
 # **c. Validation: Can a neural network learn (interpolate) the ODE numerical solution?**
 #
-# <img src="./invANNODE/basis/intro.gif">
+# <img src="./invANNODE/basis/intro.gif" style="width: 700px;"/>
 #
 # **d. Forward problem: get solution only using k-value**
 #
@@ -60,8 +60,9 @@
 #
 # #### Project Diagram / Workflow
 # <p></p>
+# <div>
+#   <img src="./imgs/fig3.png" alt="overview" style="width: 900px;"/> 
 # </div>
-#   <img src="./imgs/fig3.png" alt="overview"> 
 
 # + {"slideshow": {"slide_type": "slide"}, "cell_type": "markdown"}
 # ### 3. Result & Discussion
@@ -70,8 +71,9 @@
 # #### 3.1 Forward problem
 # NN ODE forward solution and derivatives of model and ANN
 #
+# <div>
+#   <img src="./invANNODE/basis/fwd.gif" alt="overview" style="width: 700px;"/> 
 # </div>
-#   <img src="./invANNODE/basis/fwd.gif" alt="overview"> 
 #
 # - ANN can readily be applied to solve forward ODE problems by interpolating between data. 
 # - ANN method has gradient converge to model after about 80 iterations. 
@@ -79,8 +81,9 @@
 # #### 3.2 Inverse problem
 # NN ODE inverse solution and derivatives of model and ANN
 #
+# <div>
+#     <img src="./invANNODE/basis/non_noise.gif" alt="overview" style="width: 900px;"/> 
 # </div>
-#     <img src="./invANNODE/basis/non_noise.gif" alt="overview"> 
 #
 # Model parameter comparison at epochs = 200
 #
@@ -96,8 +99,9 @@
 #
 # ANN ODE noisy data solution and derivatives of model and NN
 #
+# <div>
+#     <img src="./invANNODE/basis/noisy.gif" alt="overview" style="width: 900px;"/> 
 # </div>
-#     <img src="./invANNODE/basis/noisy.gif" alt="overview"> 
 #
 # - NN model adapt well to data with significant noises.
 # - One hidden layer and small number of nodes were used in ANN to avoid over-fitting.
