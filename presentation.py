@@ -31,7 +31,7 @@
 # + {"slideshow": {"slide_type": "slide"}, "cell_type": "markdown"}
 # ### 1. Introduction:
 #
-# **a. Background: Chemical Reactions**
+# **a. Background: Chemical Reactions:** each state variable and time are features that can be synthetically created.
 #
 # $$A\overset{k_1}{\to} B\overset{k_2}{\to} C\notag $$
 #
@@ -48,9 +48,9 @@
 #
 # <img src="./invANNODE/basis/intro.gif" style="width: 700px;"/>
 #
-# **d. Forward problem: get solution only using k-value**
+# **d. Forward problem:** get the solution only using k values (model parameters), the governing equation and boundary conditions.
 #
-# **f. Inverse Problem: get k-value using data**
+# **f. Inverse Problem:** infer k values given data and governing equations.
 #
 #    - Model Selection and Parameter Fitting
 #
@@ -66,7 +66,7 @@
 
 # + {"slideshow": {"slide_type": "slide"}, "cell_type": "markdown"}
 # ### 3. Result & Discussion
-#
+# **All ANN have a single hidden layer (8 to 10 neurons) and use hyperbolic tangent activation function (in exponential form).**
 #
 # #### 3.1 Forward problem
 # NN ODE forward solution and derivatives of model and ANN
@@ -75,8 +75,9 @@
 #   <img src="./invANNODE/basis/fwd.gif" alt="overview" style="width: 700px;"/> 
 # </div>
 #
+# Usign [ADAM optimizer](https://arxiv.org/abs/1412.6980v9) (arXiv:1412.6980 [cs.LG])
 # - ANN can readily be applied to solve forward ODE problems by interpolating between data. 
-# - ANN method has gradient converge to model after about 80 iterations. 
+# - ANN method has gradient converge to model after about 80 epochs of 100 iterations each. 
 #
 # #### 3.2 Inverse problem
 # NN ODE inverse solution and derivatives of model and ANN
@@ -159,5 +160,5 @@
 # - Automatic differentiation: [**JAX**](https://github.com/google/jax) (https://github.com/google/jax)
 # - Array-operation: [**numpy**](https://www.numpy.org/)
 # - Solution for initial-value problems, IVPs (forward problem): [**dasslc2py**](https://github.com/asanet/dasslc2py) (https://github.com/asanet/dasslc2py) or [**scipy**](https://www.scipy.org/)
-# - Non-linear minimization (optimization): [**scipy**](https://www.scipy.org/) ... for now.
-# - Artificial Neural Networks (ANN): [**TensorFlow**](https://www.tensorflow.org/) (https://www.tensorflow.org/)
+# - <s>Non-linear minimization (optimization): [**scipy**](https://www.scipy.org/) ... for now.]</s> [**JAX**]
+# - <s>Artificial Neural Networks (ANN): [**TensorFlow**](https://www.tensorflow.org/) (https://www.tensorflow.org/)</s> [**JAX**]
